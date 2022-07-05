@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./src/css/style.css">
+  <title>Controle de despesas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css">
+</head>
+
+<body>
+  <main class="container">
+    <h1 class="title">Controle de despesas</h1>
+    <div class="current-balance">
+      <h2 class="subtitle">Saldo atual</h2>
+      <span class="balance" id="balance">R$ 0,00</span>
+    </div>
+    <div class="income-expense">
+      <div>
+        <h2 class="subtitle">Receitas</h2>
+        <span class="money plus" id="money-minus">R$ 0,00</span>
+      </div>
+      <div>
+        <h2 class="subtitle">Despesas</h2>
+        <span class="money minus" id="money-plus">R$ 0,00</span>
+      </div>
+    </div>
+    <div class="transactions" id="transactions">
+      <h2 class="subtitle">Transações</h2>
+      <ul class="transactions-list" id="transactions-list">
+        <!-- LISTA DE TRANSAÇÕES VIA JS -->
+        <!-- <li class="plus">
+          Salário <span>+$4000</span><button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
+        </li>
+        <li class="minus">
+          Mercado <span>-$500</span><button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
+        </li> -->
+      </ul>
+    </div>
+    <div class="add-transaction">
+      <h2 class="subtitle">Nova transação</h2>
+      <form id="form">
+        <div class="form-control">
+          <label for="text">Nome</label>
+          <input type="text" id="text" placeholder="Nome da transação" autofocus>
+        </div>
+        <div class="form-control">
+          <label for="amount">Valor <br>
+            <small>(negativo: despesas | positivo: receitas)</small>
+          </label>
+          <input type="number" id="amount" placeholder="Valor da transação" />
+        </div>
+        <button class="add-btn" id="add-btn">Adicionar</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="./src/js/script.js"></script>
+</body>
+
+</html>
