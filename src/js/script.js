@@ -17,12 +17,14 @@ const deleteButton = document.querySelector("#delete-btn");
 // Seleciona o form
 const formTransactions = document.querySelector("#form");
 
+
 // Cria um local storage para armazenar as transações no browser
 const localStorageTransactions = JSON.parse(
   localStorage.getItem("transactions")
 );
 let transactions =
   localStorage.getItem("transactions") !== null ? localStorageTransactions : [];
+
 
 // Função para adicionar uma transação no DOM
 const addTransactionToDOM = (transaction) => {
@@ -51,45 +53,60 @@ const addTransactionToDOM = (transaction) => {
   transactionsListUL.append(transactionItemLI);
 };
 
+
 // Função para removar uma transação
 const removeTransaction = (ID) => {
   //
   transactions = transactions.filter((transction) => transction.id !== ID);
+  // atualizando o local storage e o DOM
   updateLocalStorage();
   init();
 };
 
+
+// Função para obter o saldo total das transações
+const getBalance = (transactionsAmounts) => transactionsAmounts
+  .reduce((accumulator, amount) => accumulator + amount, 0) // soma os valores
+  .toFixed(2); // arredonda para duas casa decimais
+
+
+// Função para obter apenas os valores das receitas(valores positivos)
+const getIncome = (transactionsAmounts) => transactionsAmounts
+  .filter((value) => value > 0) // filtra apenas os valores positivos
+  .reduce((accumulator, value) => accumulator + value, 0) // soma os valores
+  .toFixed(2); // arredonda para duas casas decimais
+
+
+// Função para obters apenas os valores das despesas(valores negativos)
+const getExpense = (transactionsAmounts) => Math.abs(
+  transactionsAmounts
+    .filter((value) => value < 0) // filtra apenas os valores negativos
+    .reduce((accumulator, value) => accumulator + value, 0) // soma os valores
+).toFixed(2); // arredonda para duas casas decimais
+
+
 // Atualizando os valores de Saldo, Receitas e Despesas
 const updateBalanceValues = () => {
-  // cria uma lista com os valores das transações
-  const transactionsAmounts = transactions.map(
-    (transaction) => transaction.amount
-  );
+  /* cria uma lista com os valores das transações
+  (usando Destructuring para pegar apenas a propriedade amount de cada objeto 
+  na lista de transações) */
+  const transactionsAmounts = transactions.map(({ amount }) => amount);
 
-  // soma os valores das transações(com duas casas decimais)
-  const balance = transactionsAmounts
-    .reduce((accumulator, amount) => accumulator + amount, 0)
-    .toFixed(2);
+  // obtendo o saldo
+  const balance = getBalance(transactionsAmounts);
 
-  // obtendo apenas os valores das receitas(valores positivos)
-  const income = transactionsAmounts.filter((value) => value > 0);
-  // somando a receita
-  const totalIncome = income
-    .reduce((accumulator, value) => accumulator + value, 0)
-    .toFixed(2);
+  // obtendo as receitas
+  const income = getIncome(transactionsAmounts);
 
-  // obtendo apenas os valores das despesas(valores negativos)
-  const expense = transactionsAmounts.filter((value) => value < 0);
-  // somando a despesa
-  const totalExpense = Math.abs(
-    expense.reduce((accumulator, value) => accumulator + value, 0)
-  ).toFixed(2);
+  // obtendo as despesas
+  const expense = getExpense(transactionsAmounts);
 
   // atualizando o conteudo dos textos no DOM
   balanceLabel.textContent = `R$ ${balance}`;
-  incomeLabel.textContent = `+ R$ ${totalIncome}`;
-  expenseLabel.textContent = `- R$ ${totalExpense}`;
+  incomeLabel.textContent = `+ R$ ${income}`;
+  expenseLabel.textContent = `- R$ ${expense}`;
 };
+
 
 // Adiciona as transações no DOM quando a pagina for carregada
 const init = () => {
@@ -104,14 +121,36 @@ const init = () => {
 
 init();
 
+
 // Adiciona as transação no local storage criado
 const updateLocalStorage = () => {
   // Salva a informação no local storage
   localStorage.setItem("transactions", JSON.stringify(transactions));
-}
+};
+
 
 // Gera IDs aleatorios(numeros entre 0 e 1000)
 const generateID = () => Math.round(Math.random() * 1000);
+
+
+// Função para adicionar uma transação na lista de transações
+const addToTransactionsList = (transactionName, transactionAmount) => {
+  const transaction = {
+    id: generateID(),
+    name: transactionName,
+    amount: Number(transactionAmount),
+  };
+
+  transactions.push(transaction);
+};
+
+
+// Função para limpar os inputs do form
+const cleanInputs = () => {
+  transactionNameInput.value = "";
+  transactionValueInput.value = "";
+};
+
 
 // Evento para tratar o submit do formulario
 formTransactions.addEventListener("submit", (event) => {
@@ -120,26 +159,21 @@ formTransactions.addEventListener("submit", (event) => {
 
   const transactionName = transactionNameInput.value.trim();
   const transactionValue = transactionValueInput.value.trim();
+  const someEmptyField = transactionName === "" || transactionValue === "";
 
-  // Verificando se algum dos campos(nome e valor da transação) não estejam preenchidos
-  if (transactionName === "" || transactionValue === "") {
+  // Verificando se algum dos campos(nome e valor da transação) foram preenchidos
+  if (someEmptyField) {
     alert("Por favor, preencha o nome e o valor da transação!");
     return;
   }
 
-  // cria uma transação se ambos os campos forem preenchidos
-  const transaction = {
-    id: generateID(),
-    name: transactionName,
-    amount: Number(transactionValue),
-  };
+  // Cria uma transação se ambos os campos(nome e valor) forem preenchidos
+  addToTransactionsList(transactionName, transactionValue);
 
-  // adicionando a transção na lista de transações
-  transactions.push(transaction);
+  // Atualizando a DOM e o local storage
   init();
   updateLocalStorage();
 
   // Limpando os campos preenchidos
-  transactionNameInput.value = "";
-  transactionValueInput.value = "";
+  cleanInputs();
 });
