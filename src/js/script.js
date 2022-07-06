@@ -17,14 +17,12 @@ const deleteButton = document.querySelector("#delete-btn");
 // Seleciona o form
 const formTransactions = document.querySelector("#form");
 
-
-// Lista de transações ficticias(para teste)
-let dummyTransactions = [
-  { id: 1, name: "Bolo de brigadeiro", amount: -20 },
-  { id: 2, name: "Salário", amount: 300 },
-  { id: 3, name: "Torta de frango", amount: -10 },
-  { id: 4, name: "Violão", amount: 150 },
-];
+// Cria um local storage para armazenar as transações no browser
+const localStorageTransactions = JSON.parse(
+  localStorage.getItem("transactions")
+);
+let transactions =
+  localStorage.getItem("transactions") !== null ? localStorageTransactions : [];
 
 // Função para adicionar uma transação no DOM
 const addTransactionToDOM = (transaction) => {
@@ -51,18 +49,20 @@ const addTransactionToDOM = (transaction) => {
 
   // adicionando a <li> na lista de transações
   transactionsListUL.append(transactionItemLI);
-}
+};
 
 // Função para removar uma transação
-const removeTransaction = ID => {
-  dummyTransactions = dummyTransactions.filter(transction => transction.id !== ID);
+const removeTransaction = (ID) => {
+  //
+  transactions = transactions.filter((transction) => transction.id !== ID);
+  updateLocalStorage();
   init();
-}
+};
 
 // Atualizando os valores de Saldo, Receitas e Despesas
 const updateBalanceValues = () => {
   // cria uma lista com os valores das transações
-  const transactionsAmounts = dummyTransactions.map(
+  const transactionsAmounts = transactions.map(
     (transaction) => transaction.amount
   );
 
@@ -97,12 +97,18 @@ const init = () => {
   transactionsListUL.innerHTML = "";
 
   // Iterando sob as transações para mostra-las na tela
-  dummyTransactions.forEach(addTransactionToDOM);
+  transactions.forEach(addTransactionToDOM);
 
   updateBalanceValues();
 };
 
 init();
+
+// Adiciona as transação no local storage criado
+const updateLocalStorage = () => {
+  // Salva a informação no local storage
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}
 
 // Gera IDs aleatorios(numeros entre 0 e 1000)
 const generateID = () => Math.round(Math.random() * 1000);
@@ -129,8 +135,9 @@ formTransactions.addEventListener("submit", (event) => {
   };
 
   // adicionando a transção na lista de transações
-  dummyTransactions.push(transaction);
+  transactions.push(transaction);
   init();
+  updateLocalStorage();
 
   // Limpando os campos preenchidos
   transactionNameInput.value = "";
