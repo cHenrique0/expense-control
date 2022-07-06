@@ -1,45 +1,69 @@
+// Seleciona a ul: lista de transações
 const transactionsListUL = document.querySelector("#transactions-list");
+// Seleciona o span: saldo atual
 const balanceLabel = document.querySelector("#balance");
+// Seleciona o span: receitas
 const incomeLabel = document.querySelector("#income");
+// Seleciona o span: despesas
 const expenseLabel = document.querySelector("#expense");
+// Seleciona o input: nome da transação
+const transactionNameInput = document.querySelector("#text");
+// Seleciona o input: valor da transação
+const transactionValueInput = document.querySelector("#amount");
+// Seleciona o button: adicionar transação
 const addButton = document.querySelector("#add-btn");
-const nameTransactionInput = document.querySelector("#text");
+// Seleciona o button: remover transação
+const deleteButton = document.querySelector("#delete-btn");
+// Seleciona o form
+const formTransactions = document.querySelector("#form");
 
-const dummyTransactions = [
-  { id: 1, name: "Bolo de brigadeiro", amout: -20 },
-  { id: 2, name: "Salário", amout: 300 },
-  { id: 3, name: "Torta de frango", amout: -10 },
-  { id: 4, name: "Violão", amout: 150 },
+
+// Lista de transações ficticias(para teste)
+let dummyTransactions = [
+  { id: 1, name: "Bolo de brigadeiro", amount: -20 },
+  { id: 2, name: "Salário", amount: 300 },
+  { id: 3, name: "Torta de frango", amount: -10 },
+  { id: 4, name: "Violão", amount: 150 },
 ];
 
+// Função para adicionar uma transação no DOM
 const addTransactionToDOM = (transaction) => {
   // verificando se o valor da transação é positivo ou negativo e guardando o sinal num variavel
-  const operator = transaction.amout < 0 ? "-" : "+";
+  const operator = transaction.amount < 0 ? "-" : "+";
 
   // verificando se a transação é negativa ou positiva para determinar qual classe css será exibida na DOM
-  const CSSClass = transaction.amout < 0 ? "minus" : "plus";
+  const CSSClass = transaction.amount < 0 ? "minus" : "plus";
 
   // calculando o modulo do valor da transação para evitar que mostre 2 sinais de '-' (menos)
-  const amountAbs = Math.abs(transaction.amout).toFixed(2);
+  const amountAbs = Math.abs(transaction.amount).toFixed(2);
 
   // criando um <li>
   const transactionItemLI = document.createElement("li");
   // adicionando a classe css
   transactionItemLI.classList.add(CSSClass);
   // adicionando o conteudo
-  transactionItemLI.innerHTML = `${transaction.name} <span>${operator} R$ ${amountAbs}</span>
-  <button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
+  transactionItemLI.innerHTML = `
+    ${transaction.name} <span>${operator} R$ ${amountAbs}</span>
+    <button class="delete-btn" onclick="removeTransaction(${transaction.id})">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
   `;
 
   // adicionando a <li> na lista de transações
   transactionsListUL.append(transactionItemLI);
-};
+}
+
+// Função para removar uma transação
+const removeTransaction = ID => {
+  dummyTransactions = dummyTransactions.filter(transction => transction.id !== ID);
+  init();
+}
 
 // Atualizando os valores de Saldo, Receitas e Despesas
 const updateBalanceValues = () => {
   // cria uma lista com os valores das transações
   const transactionsAmounts = dummyTransactions.map(
-    (transaction) => transaction.amout
+    (transaction) => transaction.amount
   );
 
   // soma os valores das transações(com duas casas decimais)
@@ -69,8 +93,46 @@ const updateBalanceValues = () => {
 
 // Adiciona as transações no DOM quando a pagina for carregada
 const init = () => {
+  // Limpando a lista de transações para evitar a duplicação de itens
+  transactionsListUL.innerHTML = "";
+
+  // Iterando sob as transações para mostra-las na tela
   dummyTransactions.forEach(addTransactionToDOM);
+
   updateBalanceValues();
 };
 
 init();
+
+// Gera IDs aleatorios(numeros entre 0 e 1000)
+const generateID = () => Math.round(Math.random() * 1000);
+
+// Evento para tratar o submit do formulario
+formTransactions.addEventListener("submit", (event) => {
+  // Evita que o form seja enviado
+  event.preventDefault();
+
+  const transactionName = transactionNameInput.value.trim();
+  const transactionValue = transactionValueInput.value.trim();
+
+  // Verificando se algum dos campos(nome e valor da transação) não estejam preenchidos
+  if (transactionName === "" || transactionValue === "") {
+    alert("Por favor, preencha o nome e o valor da transação!");
+    return;
+  }
+
+  // cria uma transação se ambos os campos forem preenchidos
+  const transaction = {
+    id: generateID(),
+    name: transactionName,
+    amount: Number(transactionValue),
+  };
+
+  // adicionando a transção na lista de transações
+  dummyTransactions.push(transaction);
+  init();
+
+  // Limpando os campos preenchidos
+  transactionNameInput.value = "";
+  transactionValueInput.value = "";
+});
