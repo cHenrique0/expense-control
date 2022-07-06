@@ -129,10 +129,16 @@ body {
   padding: 10px;
   font-size: 1em;
   color: var(--white);
-  background-color: #9c88ff;
+  background-color: #3e8ae7;
+  /* background-color: #9c88ff; */
   cursor: pointer;
   box-shadow: var(--box-shadow);
   border: 0;
+}
+
+.add-btn:hover {
+  background-color: #2e75cc;
+  transition: 300ms;
 }
 
 .add-btn:focus,
