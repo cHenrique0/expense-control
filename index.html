@@ -27,32 +27,34 @@
         <span class="money minus" id="expense"></span>
       </div>
     </div>
+    <h2 class="subtitle">Transações</h2>
     <div class="transactions" id="transactions">
-      <h2 class="subtitle">Transações</h2>
       <ul class="transactions-list" id="transactions-list">
         <!-- LISTA DE TRANSAÇÕES VIA JS -->
         <!-- <li class="plus">
           Salário <span>+$4000</span><button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
-        </li>
-        <li class="minus">
-          Mercado <span>-$500</span><button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
         </li> -->
       </ul>
     </div>
+    <h2 class="subtitle">Nova transação</i></h2>
     <div class="add-transaction">
-      <h2 class="subtitle">Nova transação</h2>
-      <form id="form">
+      <div class="add-inc-exp" id="add-inc-exp">
+        <button class="add-income-btn" id="add-income-btn">Receita</button>
+        <button class="add-expense-btn" id="add-expense-btn">Despesa</button>
+      </div>
+      <form class="visible" id="form">
         <div class="form-control">
           <label for="text">Nome</label>
           <input type="text" id="text" placeholder="Nome da transação" autofocus>
         </div>
         <div class="form-control">
-          <label for="amount">Valor <br>
-            <small>(negativo: despesas | positivo: receitas)</small>
-          </label>
-          <input type="number" id="amount" placeholder="Valor da transação" />
+          <label for="amount">Valor</label>
+          <input type="number" step="0.01" min="0.01" id="amount" placeholder="Valor da transação: 10.25" />
         </div>
-        <button class="add-btn" id="add-btn">Adicionar</button>
+        <div class="add-inc-exp" id="add-inc-exp">
+          <button type="submit" class="add-btn" id="add-btn">Adicionar</button>
+          <button type="reset" class="cancel-btn" id="cancel-btn">Cancelar</button>
+        </div>
       </form>
     </div>
   </main>
