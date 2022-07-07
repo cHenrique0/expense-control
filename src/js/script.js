@@ -23,8 +23,8 @@ const addExpenseButton = document.querySelector("#add-expense-btn");
 
 // Objeto para indicar o tipo da transação
 const transactionType = {
-  Income: 0,
-  Expense: 1
+  Income: "receita",
+  Expense: "despesa"
 }
 
 // Variavel para guardar o operador da transação
@@ -170,7 +170,7 @@ formTransactions.addEventListener("submit", (event) => {
     return;
   }
 
-  // Verificando o operador da transação
+  // Verificando se a transação é uma adição de despesa
   if (transactionOperator === transactionType.Expense) {
     // Transforma em um número negativo para indicar que é uma despesa
     transactionValue *= -1;
@@ -201,15 +201,32 @@ formTransactions.addEventListener("reset", (event) => {
   form.classList.toggle("visible");
 });
 
+
+// Subtitulo do formulario
+const sectionTitle = document.createElement('h3');
+
 // Evento para tratar o click do botao de adicionar Receita
 addIncomeButton.addEventListener("click", () => {
+  // Adicionando um titulo ao formulario
+  sectionTitle.textContent = transactionType.Income;
+  sectionTitle.classList.add("section-title");
+  formTransactions.prepend(sectionTitle);
+
+  // Operação: adicionando receita
   transactionOperator = transactionType.Income;
   divAddButtons.classList.toggle("visible");
   form.classList.toggle("visible");
 });
 
+
 // Evento para tratar o click do botao de adicionar Despesa
 addExpenseButton.addEventListener("click", () => {
+  // Adicionando um titulo ao formulario
+  sectionTitle.textContent = transactionType.Expense;
+  sectionTitle.classList.add("section-title");
+  formTransactions.prepend(sectionTitle);
+
+  // operação: adicionando despesa
   transactionOperator = transactionType.Expense;
   divAddButtons.classList.toggle("visible");
   form.classList.toggle("visible");

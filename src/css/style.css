@@ -49,6 +49,11 @@ body {
   margin: 40px 0 10px;
 }
 
+.section-title {
+  text-align: center;
+  text-transform: capitalize;
+}
+
 .balance {
   font-size: 1.5em;
   font-weight: bold;
@@ -173,11 +178,13 @@ body {
   cursor: pointer;
   box-shadow: var(--box-shadow);
   border: 0;
+  border-radius: 2px;
 }
 
 .cancel-btn {
   background-color: #f7f7f7;
   color: #2e75cc;
+  border: 1px solid#2e75cc;
 }
 
 .add-btn:hover {
