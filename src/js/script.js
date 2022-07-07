@@ -6,17 +6,24 @@ const balanceLabel = document.querySelector("#balance");
 const incomeLabel = document.querySelector("#income");
 // Seleciona o span: despesas
 const expenseLabel = document.querySelector("#expense");
+// Seleciona o form
+const formTransactions = document.querySelector("#form");
 // Seleciona o input: nome da transação
 const transactionNameInput = document.querySelector("#text");
 // Seleciona o input: valor da transação
 const transactionValueInput = document.querySelector("#amount");
+// Seleciona a div que contem os botoes de adicionar receita ou despesa
+const divAddButtons = document.querySelector("#add-inc-exp");
 // Seleciona o button: adicionar transação
 const addButton = document.querySelector("#add-btn");
-// Seleciona o button: remover transação
-const deleteButton = document.querySelector("#delete-btn");
-// Seleciona o form
-const formTransactions = document.querySelector("#form");
+// Seleciona o button: adicionar receita
+const addIncomeButton = document.querySelector("#add-income-btn");
+// Seleciona o button: adicionar despesa
+const addExpenseButton = document.querySelector("#add-expense-btn");
 
+// Variavel para guardar o operador da transação
+// positivo(+): receita, negativo(-): despesa
+let operator = "";
 
 // Cria um local storage para armazenar as transações no browser
 const localStorageTransactions = JSON.parse(
@@ -25,11 +32,10 @@ const localStorageTransactions = JSON.parse(
 let transactions =
   localStorage.getItem("transactions") !== null ? localStorageTransactions : [];
 
-
 // Função para adicionar uma transação no DOM
 const addTransactionToDOM = (transaction) => {
   // verificando se o valor da transação é positivo ou negativo e guardando o sinal num variavel
-  const operator = transaction.amount < 0 ? "-" : "+";
+  const amountOperator = transaction.amount < 0 ? "-" : "+";
 
   // verificando se a transação é negativa ou positiva para determinar qual classe css será exibida na DOM
   const CSSClass = transaction.amount < 0 ? "minus" : "plus";
@@ -43,7 +49,7 @@ const addTransactionToDOM = (transaction) => {
   transactionItemLI.classList.add(CSSClass);
   // adicionando o conteudo
   transactionItemLI.innerHTML = `
-    ${transaction.name} <span>${operator} R$ ${amountAbs}</span>
+    ${transaction.name} <span>${amountOperator} R$ ${amountAbs}</span>
     <button class="delete-btn" onclick="removeTransaction(${transaction.id})">
       <i class="fa-solid fa-xmark"></i>
     </button>
@@ -52,7 +58,6 @@ const addTransactionToDOM = (transaction) => {
   // adicionando a <li> na lista de transações
   transactionsListUL.append(transactionItemLI);
 };
-
 
 // Função para removar uma transação
 const removeTransaction = (ID) => {
@@ -63,27 +68,26 @@ const removeTransaction = (ID) => {
   init();
 };
 
-
 // Função para obter o saldo total das transações
-const getBalance = (transactionsAmounts) => transactionsAmounts
-  .reduce((accumulator, amount) => accumulator + amount, 0) // soma os valores
-  .toFixed(2); // arredonda para duas casa decimais
-
+const getBalance = (transactionsAmounts) =>
+  transactionsAmounts
+    .reduce((accumulator, amount) => accumulator + amount, 0) // soma os valores
+    .toFixed(2); // arredonda para duas casa decimais
 
 // Função para obter apenas os valores das receitas(valores positivos)
-const getIncome = (transactionsAmounts) => transactionsAmounts
-  .filter((value) => value > 0) // filtra apenas os valores positivos
-  .reduce((accumulator, value) => accumulator + value, 0) // soma os valores
-  .toFixed(2); // arredonda para duas casas decimais
-
+const getIncome = (transactionsAmounts) =>
+  transactionsAmounts
+    .filter((value) => value > 0) // filtra apenas os valores positivos
+    .reduce((accumulator, value) => accumulator + value, 0) // soma os valores
+    .toFixed(2); // arredonda para duas casas decimais
 
 // Função para obters apenas os valores das despesas(valores negativos)
-const getExpense = (transactionsAmounts) => Math.abs(
-  transactionsAmounts
-    .filter((value) => value < 0) // filtra apenas os valores negativos
-    .reduce((accumulator, value) => accumulator + value, 0) // soma os valores
-).toFixed(2); // arredonda para duas casas decimais
-
+const getExpense = (transactionsAmounts) =>
+  Math.abs(
+    transactionsAmounts
+      .filter((value) => value < 0) // filtra apenas os valores negativos
+      .reduce((accumulator, value) => accumulator + value, 0) // soma os valores
+  ).toFixed(2); // arredonda para duas casas decimais
 
 // Atualizando os valores de Saldo, Receitas e Despesas
 const updateBalanceValues = () => {
@@ -107,7 +111,6 @@ const updateBalanceValues = () => {
   expenseLabel.textContent = `- R$ ${expense}`;
 };
 
-
 // Adiciona as transações no DOM quando a pagina for carregada
 const init = () => {
   // Limpando a lista de transações para evitar a duplicação de itens
@@ -121,17 +124,14 @@ const init = () => {
 
 init();
 
-
 // Adiciona as transação no local storage criado
 const updateLocalStorage = () => {
   // Salva a informação no local storage
   localStorage.setItem("transactions", JSON.stringify(transactions));
 };
 
-
 // Gera IDs aleatorios(numeros entre 0 e 1000)
 const generateID = () => Math.round(Math.random() * 1000);
-
 
 // Função para adicionar uma transação na lista de transações
 const addToTransactionsList = (transactionName, transactionAmount) => {
@@ -144,27 +144,31 @@ const addToTransactionsList = (transactionName, transactionAmount) => {
   transactions.push(transaction);
 };
 
-
 // Função para limpar os inputs do form
 const cleanInputs = () => {
   transactionNameInput.value = "";
   transactionValueInput.value = "";
 };
 
-
-// Evento para tratar o submit do formulario
+// Evento para tratar o envio(submit) do formulario
 formTransactions.addEventListener("submit", (event) => {
   // Evita que o form seja enviado
   event.preventDefault();
 
   const transactionName = transactionNameInput.value.trim();
-  const transactionValue = transactionValueInput.value.trim();
+  let transactionValue = transactionValueInput.value.trim();
   const someEmptyField = transactionName === "" || transactionValue === "";
 
   // Verificando se algum dos campos(nome e valor da transação) foram preenchidos
   if (someEmptyField) {
     alert("Por favor, preencha o nome e o valor da transação!");
     return;
+  }
+
+  // Verificando o operador da transação
+  if (operator === "-") {
+    // Transforma em um número negativo para indicar que é uma despesa
+    transactionValue *= -1;
   }
 
   // Cria uma transação se ambos os campos(nome e valor) forem preenchidos
@@ -176,4 +180,32 @@ formTransactions.addEventListener("submit", (event) => {
 
   // Limpando os campos preenchidos
   cleanInputs();
+
+  divAddButtons.classList.toggle("visible");
+  form.classList.toggle("visible");
+});
+
+// Evento para tratar o cancelamento do envio(submit) do formulario
+formTransactions.addEventListener("reset", (event) => {
+  // Evita que o form seja enviado
+  event.preventDefault();
+
+  cleanInputs();
+
+  divAddButtons.classList.toggle("visible");
+  form.classList.toggle("visible");
+});
+
+// Evento para tratar o click do botao de adicionar Receita
+addIncomeButton.addEventListener("click", () => {
+  operator = "+";
+  divAddButtons.classList.toggle("visible");
+  form.classList.toggle("visible");
+});
+
+// Evento para tratar o click do botao de adicionar Despesa
+addExpenseButton.addEventListener("click", () => {
+  operator = "-";
+  divAddButtons.classList.toggle("visible");
+  form.classList.toggle("visible");
 });
