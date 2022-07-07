@@ -21,9 +21,14 @@ const addIncomeButton = document.querySelector("#add-income-btn");
 // Seleciona o button: adicionar despesa
 const addExpenseButton = document.querySelector("#add-expense-btn");
 
+// Objeto para indicar o tipo da transação
+const transactionType = {
+  Income: 0,
+  Expense: 1
+}
+
 // Variavel para guardar o operador da transação
-// positivo(+): receita, negativo(-): despesa
-let operator = "";
+let transactionOperator = null;
 
 // Cria um local storage para armazenar as transações no browser
 const localStorageTransactions = JSON.parse(
@@ -166,7 +171,7 @@ formTransactions.addEventListener("submit", (event) => {
   }
 
   // Verificando o operador da transação
-  if (operator === "-") {
+  if (transactionOperator === transactionType.Expense) {
     // Transforma em um número negativo para indicar que é uma despesa
     transactionValue *= -1;
   }
@@ -198,14 +203,14 @@ formTransactions.addEventListener("reset", (event) => {
 
 // Evento para tratar o click do botao de adicionar Receita
 addIncomeButton.addEventListener("click", () => {
-  operator = "+";
+  transactionOperator = transactionType.Income;
   divAddButtons.classList.toggle("visible");
   form.classList.toggle("visible");
 });
 
 // Evento para tratar o click do botao de adicionar Despesa
 addExpenseButton.addEventListener("click", () => {
-  operator = "-";
+  transactionOperator = transactionType.Expense;
   divAddButtons.classList.toggle("visible");
   form.classList.toggle("visible");
 });
