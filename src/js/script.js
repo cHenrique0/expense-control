@@ -169,6 +169,7 @@ const cleanInputs = () => {
   transactionAmountInput.value = "";
   transactionDateInput.value = "";
   transactionPlaceInput.value = "";
+  transactionDescInput.value = "";
 
   transactionNameInput.removeAttribute("required");
   transactionAmountInput.removeAttribute("required");
