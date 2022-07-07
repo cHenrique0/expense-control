@@ -24,8 +24,8 @@ const addExpenseButton = document.querySelector("#add-expense-btn");
 // Objeto para indicar o tipo da transação
 const transactionType = {
   Income: "receita",
-  Expense: "despesa"
-}
+  Expense: "despesa",
+};
 
 // Variavel para guardar o operador da transação
 let transactionOperator = null;
@@ -55,7 +55,7 @@ const addTransactionToDOM = (transaction) => {
   // adicionando o conteudo
   transactionItemLI.innerHTML = `
     ${transaction.name} <span>${amountOperator} R$ ${amountAbs}</span>
-    <button class="delete-btn" onclick="removeTransaction(${transaction.id})">
+    <button class="delete-btn" onclick="deleteConfirmationDialog(${transaction.id})">
       <i class="fa-solid fa-xmark"></i>
     </button>
   `;
@@ -66,7 +66,6 @@ const addTransactionToDOM = (transaction) => {
 
 // Função para removar uma transação
 const removeTransaction = (ID) => {
-  //
   transactions = transactions.filter((transction) => transction.id !== ID);
   // atualizando o local storage e o DOM
   updateLocalStorage();
@@ -166,7 +165,7 @@ formTransactions.addEventListener("submit", (event) => {
 
   // Verificando se algum dos campos(nome e valor da transação) foram preenchidos
   if (someEmptyField) {
-    alert("Por favor, preencha o nome e o valor da transação!");
+    someEmptyFieldDialog();
     return;
   }
 
@@ -201,9 +200,8 @@ formTransactions.addEventListener("reset", (event) => {
   form.classList.toggle("visible");
 });
 
-
 // Subtitulo do formulario
-const sectionTitle = document.createElement('h3');
+const sectionTitle = document.createElement("h3");
 
 // Evento para tratar o click do botao de adicionar Receita
 addIncomeButton.addEventListener("click", () => {
@@ -218,7 +216,6 @@ addIncomeButton.addEventListener("click", () => {
   form.classList.toggle("visible");
 });
 
-
 // Evento para tratar o click do botao de adicionar Despesa
 addExpenseButton.addEventListener("click", () => {
   // Adicionando um titulo ao formulario
@@ -231,3 +228,36 @@ addExpenseButton.addEventListener("click", () => {
   divAddButtons.classList.toggle("visible");
   form.classList.toggle("visible");
 });
+
+// Função para confirmação de deleção de uma transação
+const deleteConfirmationDialog = (ID) =>
+  Swal.fire({
+    title: "Você tem certeza?",
+    text: "Não é possível reverter!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3e8ae7",
+    cancelButtonColor: "#c0392b",
+    confirmButtonText: "Sim, apague a transação!",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      removeTransaction(ID);
+
+      Swal.fire({
+        title: "Apagado!",
+        text: "Sua transação foi apagada",
+        icon: "success",
+        confirmButtonColor: "#3e8ae7",
+      });
+    }
+  });
+
+// Função para informar ao usuario que ele esqueceu de preencher os campos
+const someEmptyFieldDialog = () =>
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: "Por favor, preencha todas as informações da transação!",
+    confirmButtonColor: "#3e8ae7",
+  });
