@@ -157,7 +157,7 @@ const addToTransactionsList = (
     amount: Number(transactionAmount),
     date: transactionDate,
     place: transactionPlace,
-    description: transactionDesc
+    description: transactionDesc,
   };
 
   transactions.push(transaction);
@@ -169,6 +169,11 @@ const cleanInputs = () => {
   transactionAmountInput.value = "";
   transactionDateInput.value = "";
   transactionPlaceInput.value = "";
+
+  transactionNameInput.removeAttribute("required");
+  transactionAmountInput.removeAttribute("required");
+  transactionDateInput.removeAttribute("required");
+  transactionPlaceInput.removeAttribute("required");
 };
 
 // Evento para tratar o envio(submit) do formulario
@@ -291,4 +296,24 @@ const someEmptyFieldDialog = () =>
     title: "Oops...",
     text: "Por favor, preencha todas as informações da transação!",
     confirmButtonColor: "#3e8ae7",
+  }).then(() => {
+    verifyFieldEmpty();
   });
+
+/* Função para verificar se um campo esta vazio. Se sim, adiciona um atributo
+"required" para indicar visualmente que é necessário o preenchimento daquele
+campo.
+*/
+const verifyFieldEmpty = () => {
+  const listFields = [
+    transactionNameInput,
+    transactionAmountInput,
+    transactionDateInput,
+    transactionPlaceInput,
+  ];
+  listFields.forEach((element) => {
+    if (element.value.trim() === "") {
+      element.setAttribute("required", "required");
+    }
+  });
+};
