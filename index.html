@@ -1,66 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/css/style.css" />
+    <title>Controle de despesas</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./src/css/style.css">
-  <title>Controle de despesas</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css">
-</head>
-
-<body>
-  <main class="container">
-    <h1 class="title">Controle de despesas</h1>
-    <div class="current-balance">
-      <h2 class="subtitle">Saldo atual</h2>
-      <span class="balance" id="balance"></span>
-    </div>
-    <div class="income-expense">
-      <div>
-        <h2 class="subtitle">Receitas</h2>
-        <span class="money plus" id="income"></span>
+  <body>
+    <main class="container">
+      <h1 class="title">Controle de despesas</h1>
+      <div class="current-balance">
+        <h2 class="subtitle">Saldo atual</h2>
+        <span class="balance" id="balance"></span>
       </div>
-      <div>
-        <h2 class="subtitle">Despesas</h2>
-        <span class="money minus" id="expense"></span>
+      <div class="income-expense">
+        <div>
+          <h2 class="subtitle">Receitas</h2>
+          <span class="money plus" id="income"></span>
+        </div>
+        <div>
+          <h2 class="subtitle">Despesas</h2>
+          <span class="money minus" id="expense"></span>
+        </div>
       </div>
-    </div>
-    <h2 class="subtitle">Transações</h2>
-    <div class="transactions" id="transactions">
-      <ul class="transactions-list" id="transactions-list">
-        <!-- LISTA DE TRANSAÇÕES VIA JS -->
-        <!-- <li class="plus">
+      <h2 class="subtitle">Transações</h2>
+      <div class="transactions" id="transactions">
+        <ul class="transactions-list" id="transactions-list">
+          <!-- LISTA DE TRANSAÇÕES VIA JS -->
+          <!-- <li class="plus">
           Salário <span>+$4000</span><button class="delete-btn"><i class="fa-solid fa-xmark"></i></button>
         </li> -->
-      </ul>
-    </div>
-    <h2 class="subtitle">Nova transação</h2>
-    <div class="add-transaction" id="add-transaction">
-      <div class="add-inc-exp" id="add-inc-exp">
-        <button class="add-income-btn" id="add-income-btn">Receita</button>
-        <button class="add-expense-btn" id="add-expense-btn">Despesa</button>
+        </ul>
       </div>
-      <form class="visible" id="form">
-        <div class="form-control">
-          <label for="text">Nome</label>
-          <input type="text" id="text" placeholder="Nome da transação" autofocus>
-        </div>
-        <div class="form-control">
-          <label for="amount">Valor</label>
-          <input type="number" step="0.01" min="0.01" id="amount" placeholder="R$ 10.25" />
-        </div>
+      <h2 class="subtitle">Nova transação</h2>
+      <div class="add-transaction" id="add-transaction">
         <div class="add-inc-exp" id="add-inc-exp">
-          <button type="submit" class="add-btn" id="add-btn">Adicionar</button>
-          <button type="reset" class="cancel-btn" id="cancel-btn">Cancelar</button>
+          <button class="add-income-btn" id="add-income-btn">Receita</button>
+          <button class="add-expense-btn" id="add-expense-btn">Despesa</button>
         </div>
-      </form>
-    </div>
-  </main>
+        <form class="visible" id="form">
+          <div class="form-control">
+            <label for="transaction-name">Nome</label>
+            <input
+              type="text"
+              id="transaction-name"
+              placeholder="Nome da transação"
+              autofocus
+            />
+          </div>
+          <div class="form-control">
+            <label for="transaction-amount">Valor</label>
+            <input
+              type="number"
+              step="0.01"
+              min="0.01"
+              id="transaction-amount"
+              placeholder="R$ 10.25"
+            />
+          </div>
+          <div class="form-control">
+            <label for="transaction-date">Data</label>
+            <input type="date" id="transaction-date" />
+          </div>
+          <div class="form-control">
+            <label for="transaction-place">Local</label>
+            <input
+              type="text"
+              id="transaction-place"
+              placeholder="Localização"
+            />
+          </div>
+          <div class="form-control">
+            <label for="transaction-desc">Descrição</label>
+            <input
+              type="text"
+              id="transaction-desc"
+              placeholder="Adicione uma descrição"
+            />
+          </div>
+          <div class="add-inc-exp" id="add-inc-exp">
+            <button type="submit" class="add-btn" id="add-btn">
+              Adicionar
+            </button>
+            <button type="reset" class="cancel-btn" id="cancel-btn">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
 
-  <script src="./src/js/script.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</body>
-
+    <script src="./src/js/script.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
 </html>

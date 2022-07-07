@@ -9,9 +9,15 @@ const expenseLabel = document.querySelector("#expense");
 // Seleciona o form
 const formTransactions = document.querySelector("#form");
 // Seleciona o input: nome da transação
-const transactionNameInput = document.querySelector("#text");
+const transactionNameInput = document.querySelector("#transaction-name");
 // Seleciona o input: valor da transação
-const transactionValueInput = document.querySelector("#amount");
+const transactionAmountInput = document.querySelector("#transaction-amount");
+// Seleciona o input: data da transação
+const transactionDateInput = document.querySelector("#transaction-date");
+// Seleciona o input: local da transação
+const transactionPlaceInput = document.querySelector("#transaction-place");
+// Seleciona o input: descrição da transação
+const transactionDescInput = document.querySelector("#transaction-desc");
 // Seleciona a div que contem os botoes de adicionar receita ou despesa
 const divAddButtons = document.querySelector("#add-inc-exp");
 // Seleciona o button: adicionar transação
@@ -138,11 +144,20 @@ const updateLocalStorage = () => {
 const generateID = () => Math.round(Math.random() * 1000);
 
 // Função para adicionar uma transação na lista de transações
-const addToTransactionsList = (transactionName, transactionAmount) => {
+const addToTransactionsList = (
+  transactionName,
+  transactionAmount,
+  transactionDate,
+  transactionPlace,
+  transactionDesc
+) => {
   const transaction = {
     id: generateID(),
     name: transactionName,
     amount: Number(transactionAmount),
+    date: transactionDate,
+    place: transactionPlace,
+    description: transactionDesc
   };
 
   transactions.push(transaction);
@@ -151,7 +166,9 @@ const addToTransactionsList = (transactionName, transactionAmount) => {
 // Função para limpar os inputs do form
 const cleanInputs = () => {
   transactionNameInput.value = "";
-  transactionValueInput.value = "";
+  transactionAmountInput.value = "";
+  transactionDateInput.value = "";
+  transactionPlaceInput.value = "";
 };
 
 // Evento para tratar o envio(submit) do formulario
@@ -160,10 +177,18 @@ formTransactions.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const transactionName = transactionNameInput.value.trim();
-  let transactionValue = transactionValueInput.value.trim();
-  const someEmptyField = transactionName === "" || transactionValue === "";
+  let transactionAmount = transactionAmountInput.value.trim();
+  const transactionDate = transactionDateInput.value;
+  const transactionPlace = transactionPlaceInput.value.trim();
+  const transactionDesc = transactionDescInput.value.trim();
+  const someEmptyField =
+    transactionName === "" ||
+    transactionAmount === "" ||
+    transactionDate === "" ||
+    transactionPlace === "";
 
-  // Verificando se algum dos campos(nome e valor da transação) foram preenchidos
+  /* Verificando se algum dos campos(nome, valor, data e local da transação) 
+  foram preenchidos */
   if (someEmptyField) {
     someEmptyFieldDialog();
     return;
@@ -172,11 +197,17 @@ formTransactions.addEventListener("submit", (event) => {
   // Verificando se a transação é uma adição de despesa
   if (transactionOperator === transactionType.Expense) {
     // Transforma em um número negativo para indicar que é uma despesa
-    transactionValue *= -1;
+    transactionAmount *= -1;
   }
 
-  // Cria uma transação se ambos os campos(nome e valor) forem preenchidos
-  addToTransactionsList(transactionName, transactionValue);
+  // Cria uma transação se todos os campos forem preenchidos
+  addToTransactionsList(
+    transactionName,
+    transactionAmount,
+    transactionDate,
+    transactionPlace,
+    transactionDesc
+  );
 
   // Atualizando a DOM e o local storage
   init();
