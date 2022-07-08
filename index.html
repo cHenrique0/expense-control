@@ -6,10 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/css/style.css" />
     <title>Controle de despesas</title>
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css"
-    />
+    /> -->
+    <script
+      src="https://kit.fontawesome.com/e59ca4d609.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="./src/js/script.js" defer></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
   </head>
 
   <body>
@@ -66,7 +73,7 @@
           </div>
           <div class="form-control">
             <label for="transaction-date">Data</label>
-            <input type="date" id="transaction-date"/>
+            <input type="date" id="transaction-date" />
           </div>
           <div class="form-control">
             <label for="transaction-place">Local</label>
@@ -78,8 +85,11 @@
           </div>
           <div class="form-control">
             <label for="transaction-desc">Descrição</label>
-            <textarea 
-              id="transaction-desc" cols="33" placeholder="Adicione um descrição"></textarea>
+            <textarea
+              id="transaction-desc"
+              cols="33"
+              placeholder="Adicione um descrição"
+            ></textarea>
           </div>
           <div class="add-inc-exp" id="add-inc-exp">
             <button type="submit" class="add-btn" id="add-btn">
@@ -92,8 +102,5 @@
         </form>
       </div>
     </main>
-
-    <script src="./src/js/script.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 </html>

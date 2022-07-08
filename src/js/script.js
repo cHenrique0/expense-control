@@ -173,8 +173,6 @@ const cleanInputs = () => {
 
   transactionNameInput.removeAttribute("required");
   transactionAmountInput.removeAttribute("required");
-  transactionDateInput.removeAttribute("required");
-  transactionPlaceInput.removeAttribute("required");
 };
 
 // Evento para tratar o envio(submit) do formulario
@@ -187,11 +185,7 @@ formTransactions.addEventListener("submit", (event) => {
   const transactionDate = transactionDateInput.value;
   const transactionPlace = transactionPlaceInput.value.trim();
   const transactionDesc = transactionDescInput.value.trim();
-  const someEmptyField =
-    transactionName === "" ||
-    transactionAmount === "" ||
-    transactionDate === "" ||
-    transactionPlace === "";
+  const someEmptyField = transactionName === "" || transactionAmount === "";
 
   /* Verificando se algum dos campos(nome, valor, data e local da transação) 
   foram preenchidos */
@@ -295,7 +289,7 @@ const someEmptyFieldDialog = () =>
   Swal.fire({
     icon: "error",
     title: "Oops...",
-    text: "Por favor, preencha todas as informações da transação!",
+    text: "Por favor, preencha pelo menos o nome e o valor da transação!",
     confirmButtonColor: "#3e8ae7",
   }).then(() => {
     verifyFieldEmpty();
@@ -306,12 +300,7 @@ const someEmptyFieldDialog = () =>
 campo.
 */
 const verifyFieldEmpty = () => {
-  const listFields = [
-    transactionNameInput,
-    transactionAmountInput,
-    transactionDateInput,
-    transactionPlaceInput,
-  ];
+  const listFields = [transactionNameInput, transactionAmountInput];
   listFields.forEach((element) => {
     if (element.value.trim() === "") {
       element.setAttribute("required", "required");
