@@ -6,10 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/css/style.css" />
     <title>Controle de despesas</title>
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css"
-    /> -->
     <script
       src="https://kit.fontawesome.com/e59ca4d609.js"
       crossorigin="anonymous"
@@ -23,7 +19,10 @@
     <main class="container">
       <h1 class="title">Controle de despesas</h1>
       <div class="current-balance">
-        <h2 class="subtitle">Saldo atual</h2>
+        <h2 class="subtitle">
+          <i class="fa-solid fa-wallet"></i>
+          Saldo atual
+        </h2>
         <span class="balance" id="balance"></span>
       </div>
       <div class="income-expense">
@@ -36,7 +35,10 @@
           <span class="money minus" id="expense"></span>
         </div>
       </div>
-      <h2 class="subtitle">Transações</h2>
+      <h2 class="subtitle">
+        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        Transações
+      </h2>
       <div class="transactions" id="transactions">
         <ul class="transactions-list" id="transactions-list">
           <!-- LISTA DE TRANSAÇÕES VIA JS -->
@@ -45,11 +47,20 @@
         </li> -->
         </ul>
       </div>
-      <h2 class="subtitle">Nova transação</h2>
+      <h2 class="subtitle">
+        <i class="fa-solid fa-coins"></i>
+        Nova transação
+      </h2>
       <div class="add-transaction" id="add-transaction">
         <div class="add-inc-exp" id="add-inc-exp">
-          <button class="add-income-btn" id="add-income-btn">Receita</button>
-          <button class="add-expense-btn" id="add-expense-btn">Despesa</button>
+          <button class="add-income-btn" id="add-income-btn">
+            <i class="fa-solid fa-plus"></i>
+            Receita
+          </button>
+          <button class="add-expense-btn" id="add-expense-btn">
+            <i class="fa-solid fa-minus"></i>
+            Despesa
+          </button>
         </div>
         <form class="visible" id="form">
           <div class="form-control">
@@ -60,6 +71,7 @@
               placeholder="Nome da transação"
               autofocus
             />
+            <i class="fa-solid fa-font"></i>
           </div>
           <div class="form-control">
             <label for="transaction-amount">Valor</label>
@@ -68,12 +80,14 @@
               step="0.01"
               min="0.01"
               id="transaction-amount"
-              placeholder="R$ 10.25"
+              placeholder="10.25"
             />
+            <i class="fa-solid fa-brazilian-real-sign"></i>
           </div>
           <div class="form-control">
             <label for="transaction-date">Data</label>
-            <input type="date" id="transaction-date" />
+            <input type="date" id="transaction-date"/>
+            <i class="fa-solid fa-calendar"></i>
           </div>
           <div class="form-control">
             <label for="transaction-place">Local</label>
@@ -82,6 +96,7 @@
               id="transaction-place"
               placeholder="Localização"
             />
+            <i class="fa-solid fa-location-dot"></i>
           </div>
           <div class="form-control">
             <label for="transaction-desc">Descrição</label>
@@ -93,9 +108,11 @@
           </div>
           <div class="add-inc-exp" id="add-inc-exp">
             <button type="submit" class="add-btn" id="add-btn">
+              <i class="fa-solid fa-check"></i>
               Adicionar
             </button>
             <button type="reset" class="cancel-btn" id="cancel-btn">
+              <i class="fa-solid fa-xmark"></i>
               Cancelar
             </button>
           </div>

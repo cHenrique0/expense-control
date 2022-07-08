@@ -62,7 +62,7 @@ const addTransactionToDOM = (transaction) => {
   transactionItemLI.innerHTML = `
     ${transaction.name} <span>${amountOperator} R$ ${amountAbs}</span>
     <button class="delete-btn" onclick="deleteConfirmationDialog(${transaction.id})">
-      <i class="fa-solid fa-xmark"></i>
+      <i class="fa-solid fa-trash-can"></i>
     </button>
   `;
 
