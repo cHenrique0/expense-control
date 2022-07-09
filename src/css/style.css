@@ -65,7 +65,8 @@ body {
   color: #2e75cc;
 }
 
-.current-balance .subtitle, .income-expense .subtitle {
+.current-balance .subtitle,
+.income-expense .subtitle {
   text-transform: uppercase;
   border: none;
   padding: 0;
@@ -171,7 +172,8 @@ body {
   margin-top: 10px;
 }
 
-.add-income-btn, .add-expense-btn {
+.add-income-btn,
+.add-expense-btn {
   border: none;
   border-radius: 2px;
   padding: 10px 25px;
@@ -201,7 +203,8 @@ body {
   transition: 300ms;
 }
 
-.add-btn, .cancel-btn {
+.add-btn,
+.cancel-btn {
   margin: 10px 0;
   padding: 10px 15px;
   font-size: 1em;
@@ -210,7 +213,6 @@ body {
   background-color: #3e8ae7;
   cursor: pointer;
   box-shadow: var(--box-shadow);
-  /* border: 0; */
   border: 1px solid#2e75cc;
   border-radius: 2px;
   width: 40%;
@@ -231,56 +233,97 @@ body {
   transition: 300ms;
 }
 
+.delete-btn,
+.edit-btn {
+  cursor: pointer;
+  background-color: #d1eaff;
+  border: 0;
+  color: #e74c3c;
+  font-size: 1em;
+  text-align: center;
+  padding: 2px 5px;
+}
+
+.edit-btn {
+  color: #2e75cc;
+}
+
 .add-btn:focus,
 .cancel-btn:focus,
-.delete-btn:focus {
+.delete-btn:focus,
+.edit-btn:focus {
   outline: none;
-}
-
-.transactions-list li {
-  background-color: var(--white);
-  box-shadow: var(--box-shadow);
-  color: #333;
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  padding: 10px;
-  margin: 10px 0;
-}
-
-.transactions-list li.plus {
-  border-right: 5px solid #2ecc71;
-}
-
-.transactions li.minus {
-  border-right: 5px solid #c0392b;
-}
-
-.transactions-list li:hover .delete-btn {
-  opacity: 1;
-}
-
-.delete-btn {
-  cursor: pointer;
-  background-color: #e74c3c;
-  border: 0;
-  color: var(--white);
-  font-size: 1.25em;
-  text-align: center;
-  line-height: 20px;
-  padding: 2px 5px;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(-100%, -50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 .visible {
   display: none;
 }
 
-.dark-mode {
-  /* TODO */
+.collapsible {
+  background-color: var(--white);
+  box-shadow: var(--box-shadow);
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  border: none;
+}
+
+.collapsible i {
+  width: 12px;
+}
+
+.collapsible:hover {
+  background-color: var(--lgray);
+}
+
+.collapsible.plus {
+  border-right: 5px solid #2ecc71;
+}
+
+.collapsible.minus {
+  border-right: 5px solid #c0392b;
+}
+
+.content {
+  margin: 0;
+  padding: 5px;
+  border-radius: 0 0 5px 5px;
+  overflow: hidden;
+  background-color: #d1eaff;
+  min-height: 50px;
+  max-height: 100px;
+}
+
+.show-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-left: 1px solid var(--lgray);
+}
+
+.content-buttons button {
+  margin: 5px;
+}
+
+.active {
+  margin-bottom: 0;
+  background-color: var(--lgray);
 }
